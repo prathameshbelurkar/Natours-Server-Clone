@@ -1,9 +1,12 @@
 const fs = require('fs');
 const path = require('path');
+const morgan = require('morgan');
 
 const express = require('express');
 const app = express();
 
+// Middlewares
+app.use(morgan('dev'));
 app.use(express.json());
 
 // Read file
@@ -62,13 +65,53 @@ const deleteTour = (req, res) => {
   });
 };
 
+const getAllUsers = (req, res) => {
+  return res.status(500).send({
+    status: 'err',
+    message: 'This route is not ye defined!',
+  });
+};
+
+const createUser = (req, res) => {
+  return res.status(500).send({
+    status: 'err',
+    message: 'This route is not ye defined!',
+  });
+};
+
+const getUser = (req, res) => {
+  return res.status(500).send({
+    status: 'err',
+    message: 'This route is not ye defined!',
+  });
+};
+
+const updateUser = (req, res) => {
+  return res.status(500).send({
+    status: 'err',
+    message: 'This route is not ye defined!',
+  });
+};
+
+const deleteUser = (req, res) => {
+  return res.status(500).send({
+    status: 'err',
+    message: 'This route is not ye defined!',
+  });
+};
+
 // routes
-app.route('/api/v1/tours').get(getAllTours).post(createTour);
-app
-  .route('/api/v1/tours/:id')
-  .get(getTour)
-  .patch(updateTour)
-  .delete(deleteTour);
+const tourRouter = express.Router();
+const userRouter = express.Router();
+
+tourRouter.route('/').get(getAllTours).post(createTour);
+tourRouter.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
+
+userRouter.route('/').get(getAllUsers).post(createUser);
+userRouter.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
+
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
 
 const port = 3000;
 app.listen(port, () => {
