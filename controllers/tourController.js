@@ -11,6 +11,16 @@ const filePath = path.join(
 );
 const tours = JSON.parse(fs.readFileSync(filePath));
 
+exports.checkID = (_, res, next, val) => {
+  if (val * 1 > tours.length) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID',
+    });
+  }
+  next();
+};
+
 exports.getAllTours = (req, res) => {
   return res
     .status(200)
