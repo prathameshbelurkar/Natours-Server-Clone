@@ -20,7 +20,7 @@ exports.createTour = async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: 'fail',
-      message: 'Invalid data sent!',
+      error: err,
     });
   }
 };
@@ -30,10 +30,11 @@ exports.getAllTours = async (req, res) => {
     const query = Tour.find();
     const queryString = { ...req.query };
 
-    const features = new APIFeatures(query, queryString).filter();
-    // .sort()
-    // .limitFields()
-    // .paginate();
+    const features = new APIFeatures(query, queryString)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
     const tours = await features.query;
 
     return res.status(200).json({
